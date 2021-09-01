@@ -23,13 +23,13 @@ import HomeService from "./HomeService";
 import PreprocessingTab from "./step-2/PreprocessingTab";
 import LayerTab from "./step-2/LayerTab";
 import HyperparameterTab from "./step-2/HyperparameterTab";
-
+import axios from "axios";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
     <div
-      role='tabpanel'
+      role="tabpanel"
       hidden={value !== index}
       id={`full-width-tabpanel-${index}`}
       aria-labelledby={`full-width-tab-${index}`}
@@ -2180,7 +2180,7 @@ function Step2() {
       console.log("deleting from target");
       const element = tempArr[source.index];
 
-      var temp = tempArr.filter(item => item !== element);
+      var temp = tempArr.filter((item) => item !== element);
       tempArr = temp;
 
       setselected_layer(-1);
@@ -2196,7 +2196,7 @@ function Step2() {
       console.log(
         'tempArr["id"] selected_layer_type["id"]',
         tempArr[source.index]["id"],
-        selected_layer_type["id"],
+        selected_layer_type["id"]
       );
 
       if (tempArr[source.index]["id"] === selected_layer_type["id"]) {
@@ -2212,7 +2212,7 @@ function Step2() {
         console.log(
           "selected_layer_type on drag and id is  ",
           selected_layer_type,
-          selected_layer_type["id"],
+          selected_layer_type["id"]
         );
       } else {
         setselected_layer_type("");
@@ -2294,8 +2294,8 @@ function Step2() {
     console.log(recommendations);
   };
 
-  const getRecommendations = layersArr => {
-    let recommendationArr = layersArr.map(x => x.name);
+  const getRecommendations = (layersArr) => {
+    let recommendationArr = layersArr.map((x) => x.name);
 
     return axios
       .post("http://localhost:8080/predict", {
@@ -2309,7 +2309,7 @@ function Step2() {
       });
   };
 
-  const handleInvalidLayers = validate_res => {
+  const handleInvalidLayers = (validate_res) => {
     const indexSet = new Set();
     //extracting indices of invalid layers and collecting them in a set
     for (let i = 0; i < validate_res.length; i++) {
@@ -2320,7 +2320,7 @@ function Step2() {
     return indexSet;
   };
 
-  const showdetails = element => {
+  const showdetails = (element) => {
     setselected_layer_type(element);
     console.log("selected layer type is ", selected_layer_type);
 
@@ -2331,7 +2331,7 @@ function Step2() {
     setselected_layer(index);
   };
 
-  const save_value = prop => event => {
+  const save_value = (prop) => (event) => {
     var param = prop;
     var index = selected_layer;
     const pervstate = Object.assign([], components);
@@ -2384,7 +2384,7 @@ function Step2() {
               if (key2 === "value") {
                 if (dic[key0][key1].Datatype === "number") {
                   final_dict[`Layer-${i}-${dic[key0].name}-${key1}`] = parseInt(
-                    dic[key0][key1][key2],
+                    dic[key0][key1][key2]
                   );
                 } else if (dic[key0][key1].Datatype === "float") {
                   final_dict[
@@ -2601,7 +2601,7 @@ function Step2() {
     }
   };
 
-  const handleChange_hyperparameter = prop => event => {
+  const handleChange_hyperparameter = (prop) => (event) => {
     if (prop === "plot") {
       if (state_hyperparam.plot) {
         setstate_hyperparam({
@@ -2627,7 +2627,7 @@ function Step2() {
     }
   };
 
-  const handleChange_hyperparameter_l_o = prop => event => {
+  const handleChange_hyperparameter_l_o = (prop) => (event) => {
     if (prop === "optimizer") {
       if (event.target.value !== "") {
         setselected_optimizer(all_optimizer[event.target.value]);
@@ -2646,7 +2646,7 @@ function Step2() {
     }
   };
 
-  const save_value_hyper = (prop, b) => event => {
+  const save_value_hyper = (prop, b) => (event) => {
     if (b === "optimizer") {
       var param = prop;
       const pervstate = Object.assign([], selected_optimizer);
@@ -2682,7 +2682,7 @@ function Step2() {
     }
   };
 
-  const handle_pre_meta = (key, key1, datatype) => event => {
+  const handle_pre_meta = (key, key1, datatype) => (event) => {
     var temp_dic = {};
     for (var key of Object.keys(temp_pre)) {
       for (var key1 of Object.keys(temp_pre[key])) {
@@ -2704,13 +2704,13 @@ function Step2() {
     setshow_pre(!show_pre);
   };
 
-  const handle_pre = (key, key1, datatype) => event => {
+  const handle_pre = (key, key1, datatype) => (event) => {
     var dic = _.cloneDeep(all_prepro);
     dic[`${all_prepro["dataset-type"]}-${key}-${key1}`] = event.target.value;
     setall_prepro(dic);
   };
 
-  const handleCloneLayer = layer => {
+  const handleCloneLayer = (layer) => {
     // handleChangetabs();
 
     //getting source names of all layers
@@ -2788,8 +2788,8 @@ function Step2() {
               <br></br>
               <li>
                 <Tooltip
-                  title='Exmaple: python3 test.py'
-                  placement='bottom-start'
+                  title="Exmaple: python3 test.py"
+                  placement="bottom-start"
                 >
                   <div> Run the code.</div>
                 </Tooltip>
@@ -2798,24 +2798,24 @@ function Step2() {
           </div>
         </DialogContent>
         <DialogActions style={{ justifyContent: "center" }}>
-          <Button variant='contained' onClick={download_code} color='primary'>
+          <Button variant="contained" onClick={download_code} color="primary">
             Download Code
           </Button>
         </DialogActions>
       </Dialog>
 
-      <AppBar position='static' color='default'>
+      <AppBar position="static" color="default">
         <Tabs
           value={value}
           onChange={handleChangetabs}
-          indicatorColor='primary'
-          textColor='primary'
-          variant='fullWidth'
-          aria-label='full width tabs example'
+          indicatorColor="primary"
+          textColor="primary"
+          variant="fullWidth"
+          aria-label="full width tabs example"
         >
-          <Tab label='Preprocessing' {...a11yProps(0)} />
-          <Tab label='Model' {...a11yProps(1)} />
-          <Tab label='Hyperparameters' {...a11yProps(2)} />
+          <Tab label="Preprocessing" {...a11yProps(0)} />
+          <Tab label="Model" {...a11yProps(1)} />
+          <Tab label="Hyperparameters" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
 
