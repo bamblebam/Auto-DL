@@ -23,6 +23,7 @@ import HomeService from "./HomeService";
 import PreprocessingTab from "./step-2/PreprocessingTab";
 import LayerTab from "./step-2/LayerTab";
 import HyperparameterTab from "./step-2/HyperparameterTab";
+import axios from "axios";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
